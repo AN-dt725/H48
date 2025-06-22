@@ -2,7 +2,11 @@
 <html>
 <head><meta charset="UTF-8"><title>Tất cả sản phẩm</title></head>
 <body>
-  <a href="{{ url_for('index') }}" style="text-decoration: none;">⬅️ Về trang chủ</a>
+ <a href="{{ url_for('index') }}">
+  <button style="padding: 6px 12px; border-radius: 6px; background-color: #007bff; color: white; border: none;">
+    ⬅️ Về trang chủ
+  </button>
+</a>
   <h2>📋 Danh sách sản phẩm</h2>
   <table border="1" cellpadding="10">
     <tr><th>Tên mặt hàng</th><th>Loại hàng</th><th>Giá</th></tr>
