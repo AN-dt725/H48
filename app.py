@@ -61,7 +61,7 @@ def tra():
     if request.method == 'POST':
         keyword = request.form.get('keyword', '').strip().lower()
         if keyword:
-            ket_qua = df[df['Tên mặt hàng'].str.lower().str.contains(keyword)]
+    ket_qua = df[df["Tên mặt hàng"].fillna("").str.lower().str.contains(keyword)]
 
     return render_template('tra.html', keyword=keyword, ket_qua=ket_qua)
 
