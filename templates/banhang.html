@@ -1,58 +1,45 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Bán hàng | H48</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body { font-family: sans-serif; background: #fff; padding: 20px; }
-    input[type="text"] { width: 100%; padding: 15px; font-size: 16px; }
-    button { margin-top: 10px; padding: 10px 20px; font-size: 16px; }
-    ul, table { margin-top: 20px; width: 100%; }
-    li { margin: 8px 0; }
-    table, th, td { border: 1px solid #ccc; border-collapse: collapse; padding: 10px; }
-  </style>
+    <meta charset="UTF-8">
+    <title>Bán hàng</title>
 </head>
 <body>
-  <h2>🛒 Bắt đầu bán hàng</h2>
-  <form method="POST">
-    <input type="text" name="keyword" placeholder="Nhập tên sản phẩm..." value="{{ keyword }}">
-    <button type="submit">Tìm kiếm</button>
-  </form>
+    <h2>🛍️ Bắt đầu bán hàng</h2>
+    <form method="POST">
+        <input type="text" name="keyword" placeholder="Nhập tên sản phẩm..." value="{{ keyword }}" style="font-size: 20px; width: 300px;" required>
+        <button type="submit" style="font-size: 18px;">Tìm kiếm</button>
+    </form>
 
-  {% if ket_qua %}
-    <h3>Kết quả:</h3>
-    <ul>
-    {% for i, row in ket_qua.iterrows() %}
-      <li>
-        {{ row["Tên mặt hàng"] }} - {{ row["Giá"] }}đ
-        <form method="POST" style="display:inline;">
-          <button name="add" value="{{ row['Tên mặt hàng'] }}">+ Chọn</button>
-        </form>
-      </li>
-    {% endfor %}
-    </ul>
-  {% endif %}
+    {% if ket_qua is not none %}
+        <h3>Kết quả tìm kiếm:</h3>
+        <ul>
+        {% for i, row in ket_qua.iterrows() %}
+            <li>
+                {{ row['Tên mặt hàng'] }} - {{ row['Giá'] }}
+                <form method="POST" style="display:inline;">
+                    <input type="hidden" name="add" value="{{ row['Tên mặt hàng'] }}">
+                    <button type="submit">➕ Thêm</button>
+                </form>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
 
-  {% if selected.shape[0] > 0 %}
-    <h3>🧾 Giỏ hàng đã chọn:</h3>
-    <table>
-      <thead><tr><th>Sản phẩm</th><th>Giá</th><th>Xóa</th></tr></thead>
-      <tbody>
-      {% for i, row in selected.iterrows() %}
-        <tr>
-          <td>{{ row["Tên mặt hàng"] }}</td>
-          <td>{{ row["Giá"] }}đ</td>
-          <td>
-            <form method="POST">
-              <button name="remove" value="{{ row['Tên mặt hàng'] }}">X</button>
-            </form>
-          </td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-    <h3>Tổng: <strong>{{ total }}đ</strong></h3>
-  {% endif %}
+    {% if selected is not none and not selected.empty %}
+        <h3>🧺 Giỏ hàng</h3>
+        <ul>
+        {% for i, row in selected.iterrows() %}
+            <li>
+                {{ row['Tên mặt hàng'] }} - {{ row['Giá'] }}
+                <form method="POST" style="display:inline;">
+                    <input type="hidden" name="remove" value="{{ row['Tên mặt hàng'] }}">
+                    <button type="submit">❌ Xóa</button>
+                </form>
+            </li>
+        {% endfor %}
+        </ul>
+        <h4>🧮 Tổng cộng: {{ total }}</h4>
+    {% endif %}
 </body>
 </html>
