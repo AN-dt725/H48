@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Tất cả sản phẩm | H48</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 12px; }
-    th { background: #eee; }
-  </style>
+    <meta charset="UTF-8">
+    <title>Danh sách sản phẩm</title>
 </head>
 <body>
-  <h2>📋 Danh sách sản phẩm</h2>
-  <table>
-    <thead><tr><th>Tên mặt hàng</th><th>Loại hàng</th><th>Giá</th></tr></thead>
-    <tbody>
-    {% for i, row in data.iterrows() %}
-      <tr>
-        <td>{{ row["Tên mặt hàng"] }}</td>
-        <td>{{ row["Loại hàng"] }}</td>
-        <td>{{ row["Giá"] }}đ</td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+    <h2>📋 Danh sách sản phẩm</h2>
+    <table border="1" cellpadding="6">
+        <thead>
+            <tr>
+                <th>Tên mặt hàng</th>
+                <th>Loại hàng</th>
+                <th>Giá</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for i, row in data.iterrows() %}
+            <tr>
+                <td>{{ row['Tên mặt hàng'] }}</td>
+                <td>{{ row['Loại hàng'] }}</td>
+                <td>{{ row['Giá'] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
