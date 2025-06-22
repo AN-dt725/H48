@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title or 'H48' }}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: #f6f6f6; color: #333;
+    }
+    header {
+      background-color: #222;
+      color: #fff;
+      padding: 1rem; text-align: center;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background: #333;
+    }
+    nav a {
+      color: white;
+      padding: 1rem;
+      text-decoration: none;
+    }
+    nav a:hover {
+      background-color: #444;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 2rem;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-top: 1rem;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.2rem;
+    }
+    button {
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>BẢNG GIÁ TẠP HÓA H48</h1>
+  </header>
+  <nav>
+    <a href="/">Trang chủ</a>
+    <a href="/banhang">Bắt đầu bán hàng</a>
+    <a href="/tatca">Tất cả sản phẩm</a>
+    <a href="/tra">Tra sản phẩm</a>
+  </nav>
+  <div class="container">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>
