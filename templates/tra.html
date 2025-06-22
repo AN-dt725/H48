@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Tra cứu sản phẩm | H48</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: sans-serif; background: #fff; padding: 20px; }
+    input[type="text"] { width: 100%; padding: 15px; font-size: 16px; }
+    button { margin-top: 10px; padding: 10px 20px; font-size: 16px; }
+    ul { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2>🔍 Tra cứu sản phẩm</h2>
+  <form method="POST">
+    <input type="text" name="keyword" placeholder="Nhập từ khóa..." value="{{ keyword }}">
+    <button type="submit">Tìm kiếm</button>
+  </form>
+
+  {% if ket_qua %}
+    <ul>
+    {% for i, row in ket_qua.iterrows() %}
+      <li><strong>{{ row["Tên mặt hàng"] }}</strong> – {{ row["Loại hàng"] }} – {{ row["Giá"] }}đ</li>
+    {% endfor %}
+    </ul>
+  {% elif keyword %}
+    <p>❌ Không tìm thấy sản phẩm nào chứa từ: <em>{{ keyword }}</em></p>
+  {% endif %}
+</body>
+</html>
