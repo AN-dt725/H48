@@ -1,45 +1,49 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Bán hàng</title>
+  <meta charset="UTF-8">
+  <title>Bắt đầu bán hàng</title>
+  <style>
+    input[type=text] { width: 80%; padding: 15px; font-size: 20px; margin: 10px 0; }
+    button { padding: 10px 20px; font-size: 18px; }
+    #suggestions div:hover { background-color: #f0f0f0; cursor: pointer; }
+  </style>
 </head>
 <body>
-    <h2>🛍️ Bắt đầu bán hàng</h2>
-    <form method="POST">
-        <input type="text" name="keyword" placeholder="Nhập tên sản phẩm..." value="{{ keyword }}" style="font-size: 20px; width: 300px;" required>
-        <button type="submit" style="font-size: 18px;">Tìm kiếm</button>
-    </form>
+  <h2>🧺 Bắt đầu bán hàng</h2>
+  <form method="POST">
+    <input type="text" name="keyword" id="search" placeholder="Nhập tên sản phẩm..." autocomplete="off">
+    <button type="submit">Tìm kiếm</button>
+  </form>
+  <div id="suggestions"></div>
 
-    {% if ket_qua is not none %}
-        <h3>Kết quả tìm kiếm:</h3>
-        <ul>
-        {% for i, row in ket_qua.iterrows() %}
-            <li>
-                {{ row['Tên mặt hàng'] }} - {{ row['Giá'] }}
-                <form method="POST" style="display:inline;">
-                    <input type="hidden" name="add" value="{{ row['Tên mặt hàng'] }}">
-                    <button type="submit">➕ Thêm</button>
-                </form>
-            </li>
-        {% endfor %}
-        </ul>
-    {% endif %}
+  {% if ket_qua %}
+    <ul>
+    {% for row in ket_qua.itertuples() %}
+      <li><strong>{{ row._1 }}</strong> ({{ row._2 }}) - {{ row._3 }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
 
-    {% if selected is not none and not selected.empty %}
-        <h3>🧺 Giỏ hàng</h3>
-        <ul>
-        {% for i, row in selected.iterrows() %}
-            <li>
-                {{ row['Tên mặt hàng'] }} - {{ row['Giá'] }}
-                <form method="POST" style="display:inline;">
-                    <input type="hidden" name="remove" value="{{ row['Tên mặt hàng'] }}">
-                    <button type="submit">❌ Xóa</button>
-                </form>
-            </li>
-        {% endfor %}
-        </ul>
-        <h4>🧮 Tổng cộng: {{ total }}</h4>
-    {% endif %}
+<script>
+document.getElementById('search').addEventListener('input', function() {
+  let keyword = this.value;
+  fetch('/autocomplete?term=' + keyword)
+    .then(res => res.json())
+    .then(data => {
+      let suggestionBox = document.getElementById('suggestions');
+      suggestionBox.innerHTML = '';
+      data.forEach(item => {
+        let div = document.createElement('div');
+        div.innerHTML = item.label;
+        div.onclick = () => {
+          document.getElementById('search').value = item.value;
+          suggestionBox.innerHTML = '';
+        };
+        suggestionBox.appendChild(div);
+      });
+    });
+});
+</script>
 </body>
 </html>
