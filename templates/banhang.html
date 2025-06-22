@@ -31,6 +31,14 @@
             <button class="btn btn-lg btn-outline-danger" onclick="clearCart()">🗑️ Xoá tất cả</button>
         </div>
     </div>
+  <div class="card p-4 calculator mt-4">
+  <h4 class="text-center">🧮 Máy tính</h4>
+  <div class="d-flex gap-2 mb-2">
+    <input type="text" id="calc-input" class="form-control" placeholder="Nhập phép tính">
+    <button class="btn btn-primary" onclick="calculate()">=</button>
+  </div>
+  <div id="calc-result" class="text-success"></div>
+</div>
 </div>
 <script>
     let suggestionsBox = document.getElementById('suggestions');
@@ -97,5 +105,17 @@
         totalPriceTag.textContent = `${total}k`;
     }
 </script>
+  <script>
+  function calculate() {
+    let expr = document.getElementById('calc-input').value;
+    try {
+      let result = eval(expr);
+      document.getElementById('calc-result').innerText = `Kết quả: ${result}`;
+    } catch {
+      document.getElementById('calc-result').innerText = 'Phép tính không hợp lệ';
+    }
+  }
+</script>
+
 </body>
 </html>
