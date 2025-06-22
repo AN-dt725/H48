@@ -11,7 +11,7 @@ df = pd.read_excel("data.xlsx")
 
 @app.route('/')
 def home():
-    return render_template("home.html")
+    return render_template("index.html")
 
 @app.route('/banhang', methods=['GET', 'POST'])
 def banhang():
