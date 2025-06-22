@@ -2,6 +2,11 @@
 <html>
 <head><meta charset="UTF-8"><title>Tra cứu sản phẩm</title></head>
 <body>
+  <a href="{{ url_for('index') }}">
+  <button style="padding: 6px 12px; border-radius: 6px; background-color: #007bff; color: white; border: none;">
+    ⬅️ Về trang chủ
+  </button>
+</a>
   <h2>🔍 Tra cứu sản phẩm</h2>
   <form method="POST">
     <input type="text" name="keyword" placeholder="Nhập từ khóa...">
