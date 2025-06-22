@@ -1,54 +1,57 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Bắt đầu bán hàng</title>
-  <style>
-    input[type=text] { width: 80%; padding: 15px; font-size: 20px; margin: 10px 0; }
-    button { padding: 10px 20px; font-size: 18px; }
-    #suggestions div:hover { background-color: #f0f0f0; cursor: pointer; }
-  </style>
+    <title>Bắt đầu bán hàng</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function themVaoGio(item, price) {
+            let ul = document.getElementById("cart");
+            let li = document.createElement("li");
+            li.innerHTML = item + " - " + price + " <button onclick='this.parentElement.remove(); tinhTong();'>❌ Xóa</button>";
+            ul.appendChild(li);
+            tinhTong();
+        }
+
+        function tinhTong() {
+            let items = document.querySelectorAll("#cart li");
+            let tong = 0;
+            items.forEach(li => {
+                let match = li.textContent.match(/(\d+)k/);
+                if (match) tong += parseInt(match[1]);
+            });
+            document.getElementById("tong").innerText = tong + "k";
+        }
+
+        $(function() {
+            $("#keyword").on("input", function() {
+                let term = $(this).val();
+                if (term.length > 0) {
+                    $.getJSON("/autocomplete", { term: term }, function(data) {
+                        $("#goiy").empty();
+                        data.forEach(item => {
+                            let parts = item.split(" - ");
+                            $("#goiy").append(`<div><button onclick="themVaoGio('${parts[0]}', '${parts[1]}')">${item}</button></div>`);
+                        });
+                    });
+                } else {
+                    $("#goiy").empty();
+                }
+            });
+        });
+    </script>
 </head>
 <body>
-  <a href="{{ url_for('index') }}">
-  <button style="padding: 6px 12px; border-radius: 6px; background-color: #007bff; color: white; border: none;">
-    ⬅️ Về trang chủ
-  </button>
-</a>
-  <h2>🧺 Bắt đầu bán hàng</h2>
-  <form method="POST">
-    <input type="text" name="keyword" id="search" placeholder="Nhập tên sản phẩm..." autocomplete="off">
-    <button type="submit">Tìm kiếm</button>
-  </form>
-  <div id="suggestions"></div>
+    <a href="/"><button>🔙 Về trang chủ</button></a>
+    <h2>🧺 Bắt đầu bán hàng</h2>
+    <form method="POST">
+        <input type="text" name="keyword" id="keyword" placeholder="Nhập tên sản phẩm..." autocomplete="off">
+        <input type="submit" value="Tìm kiếm">
+    </form>
+    <div id="goiy"></div>
 
-  {% if ket_qua %}
-    <ul>
-    {% for row in ket_qua.itertuples() %}
-      <li><strong>{{ row._1 }}</strong> ({{ row._2 }}) - {{ row._3 }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-
-<script>
-document.getElementById('search').addEventListener('input', function() {
-  let keyword = this.value;
-  fetch('/autocomplete?term=' + keyword)
-    .then(res => res.json())
-    .then(data => {
-      let suggestionBox = document.getElementById('suggestions');
-      suggestionBox.innerHTML = '';
-      data.forEach(item => {
-        let div = document.createElement('div');
-        div.innerHTML = item.label;
-        div.onclick = () => {
-          document.getElementById('search').value = item.value;
-          suggestionBox.innerHTML = '';
-        };
-        suggestionBox.appendChild(div);
-      });
-    });
-});
-</script>
+    <h3>🧺 Giỏ hàng</h3>
+    <ul id="cart"></ul>
+    <p>🧾 <strong>Tổng cộng: <span id="tong">0k</span></strong></p>
 </body>
 </html>

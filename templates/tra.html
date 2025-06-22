@@ -1,24 +1,20 @@
+
 <!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8"><title>Tra cứu sản phẩm</title></head>
+<head>
+    <title>Tra cứu sản phẩm</title>
+</head>
 <body>
-  <a href="{{ url_for('index') }}">
-  <button style="padding: 6px 12px; border-radius: 6px; background-color: #007bff; color: white; border: none;">
-    ⬅️ Về trang chủ
-  </button>
-</a>
-  <h2>🔍 Tra cứu sản phẩm</h2>
-  <form method="POST">
-    <input type="text" name="keyword" placeholder="Nhập từ khóa...">
-    <button type="submit">Tìm</button>
-  </form>
-
-  {% if ket_qua %}
+    <a href="/"><button>🔙 Về trang chủ</button></a>
+    <h2>🔍 Danh sách sản phẩm</h2>
+    <form method="POST">
+        <input type="text" name="keyword" placeholder="Tìm theo tên hoặc loại hàng...">
+        <input type="submit" value="Tìm kiếm">
+    </form>
     <ul>
-    {% for row in ket_qua.itertuples() %}
-      <li><strong>{{ row._1 }}</strong> ({{ row._2 }}) - {{ row._3 }}</li>
-    {% endfor %}
+        {% for item in ket_qua.itertuples() %}
+            <li>{{ item._1 }} - {{ item._2 }} - {{ item._3 }}</li>
+        {% endfor %}
     </ul>
-  {% endif %}
 </body>
 </html>
